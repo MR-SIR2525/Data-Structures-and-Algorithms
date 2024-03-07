@@ -2,16 +2,16 @@
 #include "Node.h"
 #include <iostream> //for ostream
 
-class Stack
+class Queue
 {
     private:
         Node *top;
 
     public:
-        Stack():
+        Queue():
             top(nullptr)
         {}
-        ~Stack();
+        ~Queue();
 
         void push(int data);
         bool pop();
