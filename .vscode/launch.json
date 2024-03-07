@@ -1,0 +1,30 @@
+{
+    // Make sure to have preLaunch task match the one in tasks.json, and make sure to include "cwd"
+
+    "configurations": [
+    {
+        "name": "(gdb) Launch and Debug",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${fileDirname}\\${fileBasenameNoExtension}",
+        "args": [],
+        "preLaunchTask": "C/C++: g++.exe build active file", // This should match the label in tasks.json
+        "stopAtEntry": false,
+        "cwd": "${fileDirname}",
+        "MIMode": "gdb",
+        // "miDebuggerPath": "",
+        "setupCommands": [
+            {
+                "description": "Enable pretty-printing for gdb",
+                "text": "-enable-pretty-printing",
+                "ignoreFailures": true
+            },
+            {
+                "description": "Set Disassembly Flavor to Intel",
+                "text": "-gdb-set disassembly-flavor intel",
+                "ignoreFailures": true
+            }
+        ]
+    }
+    ]
+}
