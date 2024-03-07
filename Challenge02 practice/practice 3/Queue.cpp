@@ -14,21 +14,28 @@ Queue::~Queue()
     first = last = nullptr;
 }
 
-void Queue::push(int data)
+void Queue::push(int data) //now append...
 {
     Node *newnode = new Node(data);
-    newnode->next = first;
-    first = newnode;
+
+    if (first == nullptr)
+        first = newnode;
+    else
+        last->next = newnode;
+    last = newnode;
 }
 
 bool Queue::pop()
 {
-    Node *tmp = first;
-
     if (first == nullptr) return false;   //empty Queue, pop fails
+
+    Node *current = first;
+    first = first->next;    // set first to the node beneath itself, prep for delete
     
-    first = first->next;    // set first to the node beneath itself
-    delete tmp;         //OG first deleted
+    if (first == nullptr)   //if list became empty
+        last = nullptr;
+
+    delete current;         //OG first deleted
     return true;
 }
 
