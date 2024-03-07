@@ -1,10 +1,10 @@
-#include "Stack.h"
+#include "Queue.h"
 
-Stack::~Stack()
+Queue::~Queue()
 {
     Node *tmp = top;
 
-    while (tmp != nullptr)  //hits nullptr when stack is no more
+    while (tmp != nullptr)  //hits nullptr when Queue is no more
     {
         top = top->next;
         delete tmp;
@@ -14,32 +14,32 @@ Stack::~Stack()
     top = nullptr;
 }
 
-void Stack::push(int data)
+void Queue::push(int data)
 {
     Node *newnode = new Node(data);
     newnode->next = top;
     top = newnode;
 }
 
-bool Stack::pop()
+bool Queue::pop()
 {
     Node *tmp = top;
 
-    if (top == nullptr) return false;   //empty stack, pop fails
+    if (top == nullptr) return false;   //empty Queue, pop fails
     
     top = top->next;    // set top to the node beneath itself
     delete tmp;         //OG top deleted
     return true;
 }
 
-bool Stack::peek(int &data)
+bool Queue::peek(int &data)
 {
-    if (top == nullptr) return false;   //stack empty, can't peek
+    if (top == nullptr) return false;   //Queue empty, can't peek
     data = top->data;
     return true;
 }
 
-void Stack::display(std::ostream &os)
+void Queue::display(std::ostream &os)
 {
     Node *current = top;      // start from the top
 
