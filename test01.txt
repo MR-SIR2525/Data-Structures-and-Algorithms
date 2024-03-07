@@ -1,0 +1,39 @@
+10 multiple choice
+- 7 questions 5 points
+- 3 questions 10 points
+
+7 matching
+- unique answers (each answer is only used once)
+
+1 bonus
+- fill in the blank, all or nothing
+- "can you read C++ code?"
+
+Breakdown:
+C++ (7)
+- 'could be matching...'
+- dereference operator
+- pointer
+- memory management
+- memory leakage
+- programming symbols, their meanings especially for pointers and memory management
+- identify linked list
+
+Linked Lists (4)
+- working through a linked list, adding and removing stuff
+- identify linked list operations code
+- linked list components
+- show or describe the END STATE of an empty singly-linked list (10 points questions)
+    - L.append(20)
+    - L.append(50)
+    - L.remove(20)
+    - L.append(2)
+
+Time Complexity (4)
+- related to linked lists or stacks
+- time Complexity to search, insert, and delete elements in stacks, linked lists, arrays(?)
+
+Stacks (2)
+- Last in, first out
+- How to implement a stack using arrays or singly-linked lists
+- push() and pop() 
