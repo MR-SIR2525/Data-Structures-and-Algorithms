@@ -23,12 +23,12 @@ void Stack::push(int data)
 
 bool Stack::pop()
 {
-    Node *tmp = top;
+    Node *current = top;
 
     if (top == nullptr) return false;   //empty stack, pop fails
     
     top = top->next;    // set top to the node beneath itself
-    delete tmp;         //OG top deleted
+    delete current;         //OG top deleted
     return true;
 }
 
