@@ -2,48 +2,48 @@
 
 Queue::~Queue()
 {
-    Node *tmp = top;
+    Node *tmp = first;
 
     while (tmp != nullptr)  //hits nullptr when Queue is no more
     {
-        top = top->next;
+        first = first->next;
         delete tmp;
         
-        tmp = top;
+        tmp = first;
     }
-    top = nullptr;
+    first = last = nullptr;
 }
 
 void Queue::push(int data)
 {
     Node *newnode = new Node(data);
-    newnode->next = top;
-    top = newnode;
+    newnode->next = first;
+    first = newnode;
 }
 
 bool Queue::pop()
 {
-    Node *tmp = top;
+    Node *tmp = first;
 
-    if (top == nullptr) return false;   //empty Queue, pop fails
+    if (first == nullptr) return false;   //empty Queue, pop fails
     
-    top = top->next;    // set top to the node beneath itself
-    delete tmp;         //OG top deleted
+    first = first->next;    // set first to the node beneath itself
+    delete tmp;         //OG first deleted
     return true;
 }
 
 bool Queue::peek(int &data)
 {
-    if (top == nullptr) return false;   //Queue empty, can't peek
-    data = top->data;
+    if (first == nullptr) return false;   //Queue empty, can't peek
+    data = first->data;
     return true;
 }
 
 void Queue::display(std::ostream &os)
 {
-    Node *current = top;      // start from the top
+    Node *current = first;      // start from the first
 
-    while (current != nullptr)      //stops when current hits 'tail'.
+    while (current != nullptr)      //sfirsts when current hits 'tail'.
     {
         os << current->data << " ";
         current = current->next;    //move forwards

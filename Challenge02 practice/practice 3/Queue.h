@@ -5,11 +5,12 @@
 class Queue
 {
     private:
-        Node *top;
+        Node *first;
+        Node *last;
 
     public:
         Queue():
-            top(nullptr)
+            first(nullptr)
         {}
         ~Queue();
 
