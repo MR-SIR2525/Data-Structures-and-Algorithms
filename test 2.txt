@@ -1,0 +1,70 @@
+Thursday, March 21
+
+24 questions
+3 bonus questions
+    - 2 points
+    - 2 points
+    - 1 point
+
+Queues (19%)
+Trees (14%)
+BST (20%)
+AVL (20%)
+
+Multiple Choice
+    - 15 questions (72 points)
+        - (14x5 pts, 1x2 pts)
+Fill in the Blank
+    - 7 questions (20 points)
+        - (5x2 pts, 2x5 pts)
+select all 
+    - 2 questions (8 points)
+        - (1x6pts, 1x2 pts)
+
+
+The Queue ADT
+    main operations
+    - enqueue
+    - dequeue
+    - peek
+    - size
+    - display
+
+Trees
+    - leaves
+    - branches
+    - depth
+    - height
+    - traversals
+        - each of the traversals
+        - 3 questions/traversals
+    - how many children at most? 
+        -> as many as you want
+
+Binary Trees
+    - how many children at most? 
+        -> 2
+
+    - preorder traversal
+    - postorder
+    - inorder
+        - gives you the values in ascending order
+        - vist the node after the left child, before the right child
+
+    - What can happen with binary trees when you insert? 
+        -> it can become unbalanced
+
+    Balance
+        - left heavy
+        - right heavy
+        - balanced
+            - height difference <= 1
+            - What values can we have?
+                0
+                1
+                2
+                -1
+                -2
+                (negative/positve indicates which rotation is needed to balance)
+
+        - Balance Factor = height(left) - height(right)
