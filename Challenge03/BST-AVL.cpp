@@ -196,7 +196,9 @@ void AVL::balance(Node * &node)
 
 // Left-Node-Right (L-N-R)
 void AVL::inOrder(ostream &os) {
+    os << "In-Order: ";
     inOrder(root, os);  // Start the traversal from the root
+    os << "\n";
 }
 
 // Left-Node-Right (L-N-R)
@@ -213,7 +215,9 @@ void AVL::inOrder(Node *node, ostream &os)
 
 // Node-Left-Right (N-L-R)
 void AVL::preOrder(ostream &os) {
+    os << "Pre-Order: ";
     preOrder(root, os);     // Start the traversal from the root
+    os << "\n";
 }
 
 // Node-Left-Right (N-L-R)
@@ -225,10 +229,11 @@ void AVL::preOrder(Node *node, ostream &os) {
     }
 }
 
-
 // Left-Right-Node (L-R-N)
 void AVL::postOrder(ostream &os) {
+    os << "Post-Order: ";
     postOrder(root, os);
+    os << "\n";
 }
 
 // Left-Right-Node (L-R-N)
