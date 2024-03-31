@@ -28,16 +28,16 @@ int main() {
     b.insert(57);
     b.insert(89);
     b.insert(90);
-    cout << b.find(44) << endl;
-    cout << b.find(62) << endl;
+    cout << b.find(44) << "\n";
+    cout << b.find(62) << "\n";
 
     b.remove(62);
-    cout << b.find(62) << endl;
+    cout << b.find(62) << "\n";
 
     b.insert(44);
-    cout << b.find(44) << endl;
+    cout << b.find(44) << "\n";
 
-    b.postOrder(cout << "\n");
-    b.preOrder(cout << "\n");
-    b.inOrder(cout << "\n");
+    b.postOrder(cout);
+    b.preOrder(cout);
+    b.inOrder(cout);
 }
