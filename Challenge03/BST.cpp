@@ -1,16 +1,16 @@
 #include <iostream>
 #include <algorithm>    // for std::max()
-#include "BST-AVL.h"
+#include "BST.h"
 /* 
  * Public and private methods are arranged as:
  *
- * AVL::Private method {
+ * BST::Private method {
  * }
- * AVL::Public method {
+ * BST::Public method {
  * }
 */
 
-int AVL::height(Node *node) 
+int BST::height(Node *node) 
 {
     if (node == nullptr) 
         return -1;  // Height of a non-existent node is considered -1
@@ -30,7 +30,7 @@ int AVL::height(Node *node)
 
 
 // Balance Factor
-int AVL::BF(Node *node)
+int BST::BF(Node *node)
 {
     if (node == nullptr)
         return 0;
@@ -38,11 +38,11 @@ int AVL::BF(Node *node)
 }
 
 
-bool AVL::insert(int data) {
+bool BST::insert(int data) {
     return insert(root, data);
 }
 
-bool AVL::insert(Node *&node, int data)
+bool BST::insert(Node *&node, int data)
 {
     bool success = false;
     if (node == nullptr)
@@ -65,11 +65,11 @@ bool AVL::insert(Node *&node, int data)
 }
 
 
-bool AVL::remove(int data) {    // Public method
+bool BST::remove(int data) {    // Public method
     return remove(root, data);
 }
 
-bool AVL::remove(Node *&node, int data)
+bool BST::remove(Node *&node, int data)
 {
     if (node == nullptr)
         return false;
@@ -123,11 +123,11 @@ int Node::degree() const
 }
 
 
-bool AVL::find(int data) {
+bool BST::find(int data) {
     return find(root, data);
 }
 
-bool AVL::find(Node* node, int data) 
+bool BST::find(Node* node, int data) 
 {
     if (node == nullptr) // If the node is nullptr, the search value is not found in the tree.
         return false;
@@ -145,7 +145,7 @@ bool AVL::find(Node* node, int data)
 }
 
 
-void AVL::rightRotate(Node * &node)
+void BST::rightRotate(Node * &node)
 {
     Node *left = node->left;
     Node *hold = left->right;
@@ -158,7 +158,7 @@ void AVL::rightRotate(Node * &node)
 }
 
 
-void AVL::leftRotate(Node * &node)
+void BST::leftRotate(Node * &node)
 {
     Node *right = node->right;
     Node *hold = right->left;
@@ -173,7 +173,7 @@ void AVL::leftRotate(Node * &node)
 }
 
 
-void AVL::balance(Node * &node)
+void BST::balance(Node * &node)
 {
     int balance = BF(node);
 
@@ -195,14 +195,14 @@ void AVL::balance(Node * &node)
 /******************** Traversals ********************/
 
 // Left-Node-Right (L-N-R)
-void AVL::inOrder(ostream &os) {
+void BST::inOrder(ostream &os) {
     os << "In-Order: ";
     inOrder(root, os);  // Start the traversal from the root
     os << "\n";
 }
 
 // Left-Node-Right (L-N-R)
-void AVL::inOrder(Node *node, ostream &os) 
+void BST::inOrder(Node *node, ostream &os) 
 {
     if (node != nullptr) 
     {
@@ -214,14 +214,14 @@ void AVL::inOrder(Node *node, ostream &os)
 
 
 // Node-Left-Right (N-L-R)
-void AVL::preOrder(ostream &os) {
+void BST::preOrder(ostream &os) {
     os << "Pre-Order: ";
     preOrder(root, os);     // Start the traversal from the root
     os << "\n";
 }
 
 // Node-Left-Right (N-L-R)
-void AVL::preOrder(Node *node, ostream &os) {
+void BST::preOrder(Node *node, ostream &os) {
     if (node != nullptr) {
         os << node->data << " ";    // Visit node itself first
         preOrder(node->left, os);   // Then, visit left subtree recursively
@@ -230,14 +230,14 @@ void AVL::preOrder(Node *node, ostream &os) {
 }
 
 // Left-Right-Node (L-R-N)
-void AVL::postOrder(ostream &os) {
+void BST::postOrder(ostream &os) {
     os << "Post-Order: ";
     postOrder(root, os);
     os << "\n";
 }
 
 // Left-Right-Node (L-R-N)
-void AVL::postOrder(Node *node, ostream &os)
+void BST::postOrder(Node *node, ostream &os)
 {
     if (node == nullptr)
         return;
@@ -249,11 +249,11 @@ void AVL::postOrder(Node *node, ostream &os)
 
 
 /******************** Destructor ********************/
-AVL::~AVL() {
+BST::~BST() {
     destroy(root);
 }
 
-void AVL::destroy(Node*& node) {
+void BST::destroy(Node*& node) {
     if (node != nullptr) {
         destroy(node->left);    // Recursively destroy the left subtree
         destroy(node->right);   // Recursively destroy the right subtree

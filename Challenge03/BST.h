@@ -4,7 +4,7 @@
 
 using std::ostream;
 
-class AVL
+class BST
 {
 private:
     Node *root;
@@ -24,10 +24,10 @@ private:
     void destroy(Node *&node);
 
 public:
-    AVL(): 
+    BST(): 
         root(nullptr) 
     {}
-    ~AVL();
+    ~BST();
     
     bool insert(int data);
     bool remove(int data);

@@ -8,13 +8,13 @@
  *  - delete and then retype the deletion method from memory
 */
 #include <iostream>
-#include "BST-AVL.h"
+#include "BST.h"
 
 using namespace std;
 
 int main() {
 
-    AVL b;
+    BST b;
 
     b.insert(56);
     b.insert(34);
