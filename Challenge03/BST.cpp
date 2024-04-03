@@ -64,38 +64,58 @@ bool BST::remove(int data) {    // Public method
 
 bool BST::remove(Node *&node, int data)
 {
+    // Base case: If current node is nullptr, data isn't found; return false.
     if (node == nullptr)
         return false;
+
+    // If data to remove is less than current node's data, search in left subtree.
     if (data < node->data)
         return remove(node->left, data);
+
+    // If data to remove is greater than current node's data, search in right subtree.
     if (data > node->data)
         return remove(node->right, data);
 
+    //if node->data == data
+        //proceed...
+
+    // Calculate the degree (number of children) of the node to be removed.
     int deg = node->degree();
-/////////////////////////////////
+
+    // Case 1: Node is a leaf (degree 0). Delete the node and set the pointer to nullptr.
     if (deg == 0)
     {
         delete node;
         node = nullptr;
     }
+    // Case 2: Node has one child (degree 1). Replace node with its single child then delete.
     else if (deg == 1)
     {
         Node *current = node;
 
+        // Determine which child exists, it is now the new node.
         node = (node->left != nullptr) ? node->left : node->right;
-        delete current;
+        delete current;     // Delete the original node with pointer you made.
     }
-    else // degree >= 2... Starting from the left child of the node to be removed, you traverse as far right as possible. The resulting node (current) is the in-order predecessor, which is the maximum value in the left subtree.
+    // Case 3: Node has two children (degree 2).
+    else 
     {
-        Node *current = node->left;
-        while (current->right != nullptr)
+        // Find the in-order predecessor
+        Node *current = node->left;         //Step 1: go to left child
+        while (current->right != nullptr)   //Step 2: go down, right to find next largest number
         {
-            current = current->right;
+            current = current->right; //Step 2 (cont): Progress further down & right to find leaf
         }
+
+        // Replace node-to-be-removed's data with its in-order predecessor's data.
         node->data = current->data;
+        
+        // node with data to remove has been overwritten, now remove the source of the overwrite.
+        //with a new remove call with updated data.
         remove(node->left, current->data);
     }
 
+    // If the function reaches this point, the node has been successfully removed.
     return true;
 }
 
