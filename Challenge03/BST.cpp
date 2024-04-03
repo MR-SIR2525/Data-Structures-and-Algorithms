@@ -72,7 +72,7 @@ bool BST::remove(Node *&node, int data)
         return remove(node->right, data);
 
     int deg = node->degree();
-
+/////////////////////////////////
     if (deg == 0)
     {
         delete node;
@@ -80,20 +80,20 @@ bool BST::remove(Node *&node, int data)
     }
     else if (deg == 1)
     {
-        Node *tmp = node;
+        Node *current = node;
 
         node = (node->left != nullptr) ? node->left : node->right;
-        delete tmp;
+        delete current;
     }
-    else // degree >= 2... Starting from the left child of the node to be removed, you traverse as far right as possible. The resulting node (tmp) is the in-order predecessor, which is the maximum value in the left subtree.
+    else // degree >= 2... Starting from the left child of the node to be removed, you traverse as far right as possible. The resulting node (current) is the in-order predecessor, which is the maximum value in the left subtree.
     {
-        Node *tmp = node->left;
-        while (tmp->right != nullptr)
+        Node *current = node->left;
+        while (current->right != nullptr)
         {
-            tmp = tmp->right;
+            current = current->right;
         }
-        node->data = tmp->data;
-        remove(node->left, tmp->data);
+        node->data = current->data;
+        remove(node->left, current->data);
     }
 
     return true;
