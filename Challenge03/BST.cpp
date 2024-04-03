@@ -1,14 +1,7 @@
 #include <iostream>
 #include <algorithm>    // for std::max()
 #include "BST.h"
-/* 
- * Public and private methods are arranged as:
- *
- * BST::Private method {
- * }
- * BST::Public method {
- * }
-*/
+
 
 int BST::height(Node *node) 
 {
