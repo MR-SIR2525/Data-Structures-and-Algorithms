@@ -51,7 +51,7 @@ double insert_search_time(T &dataStructure, int* arr, int count, int findMe)
     }
     // Find the value, prints 0 for failure and 1 for success
     std::cout << setw(11) << right << dataStructure.name 
-         << " find(" << setw(3) << left << findMe << "): " 
+         << " find(" << setw(3) << right << findMe << "): " 
          << setw(1) << left << dataStructure.find(findMe) << "\n";
     auto stopTime = high_resolution_clock::now();                     // Record stop time
     auto totalTime = duration_cast<duration<double>>(stopTime - startTime);
@@ -69,7 +69,7 @@ double populateSequentially(T &dataStructure, int start, int end, int step, int 
     }
     // Find the value, prints 0 for failure and 1 for success
     std::cout << setw(11) << right << dataStructure.name 
-         << " find(" << setw(3) << left << findMe << "): " 
+         << " find(" << setw(3) << right << findMe << "): " 
          << setw(1) << left << dataStructure.find(findMe) << "\n";
     auto stopTime = high_resolution_clock::now();                   // Record stop time
     auto totalTime = duration_cast<duration<double>>(stopTime - startTime);
