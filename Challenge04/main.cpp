@@ -9,7 +9,7 @@
 #include <ctime>
 #include <chrono>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include "BST.h"
 #include "LinkedList.h"
 
@@ -17,8 +17,12 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 using std::chrono::duration_cast;
 using std::string;
-using std::map;
+using std::unordered_map;
 using std::cout;
+using std::right;
+using std::left;
+using std::setw;
+using std::setprecision;
 
 int randomNumber(int min, int max)
 {
@@ -46,7 +50,9 @@ double insert_search_time(T &dataStructure, int* arr, int count, int findMe)
         dataStructure.insert(arr[i]);
     }
     // Find the value, prints 0 for failure and 1 for success
-    cout << dataStructure.name << " find(" << findMe << "): " << dataStructure.find(findMe) << "\n";
+    std::cout << setw(11) << right << dataStructure.name 
+         << " find(" << setw(3) << left << findMe << "): " 
+         << setw(1) << left << dataStructure.find(findMe) << "\n";
     auto stopTime = high_resolution_clock::now();                     // Record stop time
     auto totalTime = duration_cast<duration<double>>(stopTime - startTime);
     return totalTime.count();
@@ -62,7 +68,9 @@ double populateSequentially(T &dataStructure, int start, int end, int step, int 
         dataStructure.insert(i);
     }
     // Find the value, prints 0 for failure and 1 for success
-    cout << dataStructure.name << " find(" << findMe << "): " << dataStructure.find(findMe) << "\n";
+    std::cout << setw(11) << right << dataStructure.name 
+         << " find(" << setw(3) << left << findMe << "): " 
+         << setw(1) << left << dataStructure.find(findMe) << "\n";
     auto stopTime = high_resolution_clock::now();                   // Record stop time
     auto totalTime = duration_cast<duration<double>>(stopTime - startTime);
     return totalTime.count();
@@ -86,8 +94,8 @@ int main()
      *      - record stop time
      */
 
-    map<std::string, double > bst_times;   // BST times dictionary: "operation description" and "time"
-    map<std::string, double > list_times;  // LL times dictionary: "operation description" and "time"
+    unordered_map<std::string, double > bst_times;   // BST times dictionary: "operation description" and "time"
+    unordered_map<std::string, double > list_times;  // LL times dictionary: "operation description" and "time"
     int count = -1;
     int findMe = -1;
     int maxCount = 1000;
@@ -154,26 +162,27 @@ int main()
 
     if (bst_times.size() == list_times.size()) //verify we didn't have a slipup
     {
-        int nameWidth = 30;
+        int nameWidth = 25;
         int numWidth = 10;
-        std::cout << std::setfill('-') << std::setw(nameWidth + numWidth) << "" << std::setfill(' ') << '\n';  // Draw a line
+        std::cout << std::setfill('-') << setw(nameWidth + numWidth) << "" << std::setfill(' ') << '\n';  // Draw a line
 
         auto bst_pair = bst_times.begin();
         auto list_pair = list_times.begin();
 
         while (bst_pair != bst_times.end() && list_pair != list_times.end())
         {
-            std::string bst_label = bst_pair->first + " BST:";
-            std::string ll_label = list_pair->first + "  LL:";
+            cout << left << setw(nameWidth) << bst_pair->first;
+            cout << right << setw(12) << "BST"
+                << right << setw(numWidth) << std::fixed 
+                << setprecision(7) << bst_pair->second << " s "
+                << setw(5) << ((bst_pair->second < list_pair->second) ? "winner" : "") << "\n";
 
-            std::cout << std::left << std::setw(nameWidth) << bst_label
-                    << std::right << std::setw(numWidth) << std::fixed 
-                    << std::setprecision(7) << bst_pair->second << " s\n";
-
-            std::cout << std::left << std::setw(nameWidth) << ll_label
-                    << std::right << std::setw(numWidth) << std::fixed 
-                    << std::setprecision(7) << list_pair->second << " s\n";
-            std::cout << "\n";
+            cout << left << setw(nameWidth) << list_pair->first;
+            cout << right << setw(12) << "LinkedList"
+                << right << setw(numWidth) << std::fixed 
+                << setprecision(7) << list_pair->second << " s  "
+                << setw(5) << ((list_pair->second < bst_pair->second) ? "winner" : "") << "\n";
+            cout << "\n";
 
             bst_pair++;
             list_pair++;
