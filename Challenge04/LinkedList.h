@@ -33,8 +33,10 @@ private:
         ~LinkedList();
 
         void append(int data);
+        void insert(int data);  //just calls append
         void prepend(int data);
         bool search(int data);
+        bool find(int data);    //alias for search()
         bool remove(int data);
         bool tailRemove(int data);
 
