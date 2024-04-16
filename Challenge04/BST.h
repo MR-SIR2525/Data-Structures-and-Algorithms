@@ -51,4 +51,5 @@ public:
     void inOrder(ostream &os);
     void preOrder(ostream &os);
     void postOrder(ostream &os);
+    void display(ostream &os);
 };
