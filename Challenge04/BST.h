@@ -40,6 +40,7 @@ private:
     void destroy(Node *&node);
 
 public:
+    string name = "BST";
     BST(): 
         root(nullptr) 
     {}

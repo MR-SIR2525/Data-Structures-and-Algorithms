@@ -35,7 +35,8 @@ void getRandomNumbers(int* arr, int count, int min, int max)
 
 /* Inserts numbers to a data structure, searches for 'findMe', and appends the 
 *  duration to 'list_of_times'. *Requires data_structure.insert() and data_structure.find() 
-*  to exist. */
+*  to exist. 
+*  @param dataStructure, arr, count, findMe, list_of_times */
 template<typename T>
 void insert_search_time(T &dataStructure, int* arr, int count, int findMe, map<string, duration<double>> &list_of_times) 
 {
@@ -43,26 +44,22 @@ void insert_search_time(T &dataStructure, int* arr, int count, int findMe, map<s
     for (int i = 0; i < count; ++i) {    // Insert array contents to data structure
         dataStructure.insert(arr[i]);
     }
-    cout << "Data Structure find(" << findMe << "): " << dataStructure.find(findMe) << "\n";  // Find the value
+    cout << dataStructure.name << " find(" << findMe << "): " << dataStructure.find(findMe) << "\n";  // Find the value
     auto stop = high_resolution_clock::now();                                               // Record stop time
     list_of_times["1 dozen random"] = duration_cast<duration<double>>(stop - start);         // Store the duration
 }
 
+/* @param dataStructure, start, end, step, findMe, list_of_times */
+template<typename T>
+void populateSequentially(T &dataStructure, int start, int end, int step, int findMe, map<string, duration<double>> &list_of_times) 
+{
+    auto start = high_resolution_clock::now();
+    for (int i = start; ((step > 0) ? i <= end : i >= end); i += step) {
+        dataStructure.insert(i);
+    }
+    cout << dataStructure.name << " find(" << findMe << "): " << dataStructure.find(findMe) << "\n";
+}
 
-// inserts numbers to a BST sequentially (either forwards or backwards)
-void populateSequentially(BST& bst, int start, int end, int step=1) 
-{
-    for (int i = start; ((step > 0) ? i <= end : i >= end); i += step) {
-        bst.insert(i);
-    }
-}
-// inserts numbers to a LinkedList sequentially (either forwards or backwards)
-void populateSequentially(LinkedList& list, int start, int end, int step=1)
-{
-    for (int i = start; ((step > 0) ? i <= end : i >= end); i += step) {
-        list.append(i);
-    }
-}
 
 int main() 
 {
@@ -95,93 +92,64 @@ int main()
     insert_search_time(bst, nums, count, findMe, bst_times);
     insert_search_time(list, nums, count, findMe, list_times);
 
-
-    
-
-    //clear BST and List
+    // Got what we needed, destroy the evidence.
     bst.~BST();
     list.~LinkedList();
-    delete[] nums;
 
-
-    // TODO: time each insertion and search...
 
     // 2 dozen random numbers
-    insertRandomNumbers(bst, list, 24, 1, 1000);
+    count = 24;
     findMe = randomNumber(1, 1000);
+    int nums[count];
+    getRandomNumbers(nums, count, 1, 1000);
 
-    start = high_resolution_clock::now();
-    cout << "BST find(" << findMe << "): " << bst.find(findMe) << "\n";
-    stop = high_resolution_clock::now();
-    bst_times["2 dozen random"] = duration_cast<duration<double>>(stop - start);
+    insert_search_time(bst, nums, count, findMe, bst_times);
+    insert_search_time(list, nums, count, findMe, list_times);
 
-    start = high_resolution_clock::now();
-    cout << "List find(" << findMe << "): " << list.search(findMe) << "\n";
-    stop = high_resolution_clock::now();
-    list_times["2 dozen random"] = duration_cast<duration<double>>(stop - start);
-
-    //clear BST and List
+    // Got what we needed, destroy the evidence.
     bst.~BST();
     list.~LinkedList();
 
 
     // 200 random numbers
-    insertRandomNumbers(bst, list, 200, 1, 1000);
+    count = 200;
     findMe = randomNumber(1, 1000);
+    int nums[count];
+    getRandomNumbers(nums, count, 1, 1000);
 
-    start = high_resolution_clock::now();
-    cout << "BST find(" << findMe << "): " << bst.find(findMe) << "\n";
-    stop = high_resolution_clock::now();
-    bst_times["200 random"] = duration_cast<duration<double>>(stop - start);
+    insert_search_time(bst, nums, count, findMe, bst_times);
+    insert_search_time(list, nums, count, findMe, list_times);
 
-    start = high_resolution_clock::now();
-    cout << "List find(" << findMe << "): " << list.search(findMe) << "\n";
-    stop = high_resolution_clock::now();
-    list_times["200 random"] = duration_cast<duration<double>>(stop - start);
-
-    //clear BST and List
+    // Got what we needed, destroy the evidence.
     bst.~BST();
     list.~LinkedList();
 
 
     // 1 through 1k backwards
-    populateSequentially(bst, list, 1000, 1, -1);
+    count = 1000;
     findMe = randomNumber(1, 1000);
+    int nums[count];
 
-    start = high_resolution_clock::now();
-    cout << "BST find(" << findMe << "): " << bst.find(findMe) << "\n";
-    stop = high_resolution_clock::now();
-    bst_times["1 through 1k backwards"] = duration_cast<duration<double>>(stop - start);
+    populateSequentially(bst, 1000, 1, -1, findMe, bst_times);
+    populateSequentially(list, 1000, 1, -1, findMe, list_times);
 
-    start = high_resolution_clock::now();
-    cout << "List find(" << findMe << "): " << list.search(findMe) << "\n";  
-    stop = high_resolution_clock::now();
-    list_times["1 through 1k backwards"] = duration_cast<duration<double>>(stop - start);
-
-    //clear BST and List
     bst.~BST();
     list.~LinkedList();
 
 
     // 1 through 1k forwards
-    populateSequentially(bst, list, 1, 1000, 1);
+    count = 1000;
+    findMe = randomNumber(1, 1000);
+    int nums[count];
 
-    start = high_resolution_clock::now();
-    cout << "BST find(" << findMe << "): " << bst.find(findMe) << "\n";
-    stop = high_resolution_clock::now();
-    bst_times["1 through 1k forwards"] = duration_cast<duration<double>>(stop - start);
+    populateSequentially(bst, 1, 1000, 1, findMe, bst_times);
+    populateSequentially(list, 1, 1000, 1, findMe, list_times);
 
-    start = high_resolution_clock::now();
-    cout << "List find(" << findMe << "): " << list.search(findMe) << "\n";
-    stop = high_resolution_clock::now();
-    list_times["1 through 1k forwards"] = duration_cast<duration<double>>(stop - start);
-
-    //clear BST and List
     bst.~BST();
     list.~LinkedList();
 
 
-    if (bst_times.size() == list_times.size()) 
+    if (bst_times.size() == list_times.size()) //verify we didn't have a slipup
     {
         int nameWidth = 30;
         int numWidth = 10;
@@ -200,6 +168,10 @@ int main()
                     << std::right << std::setw(numWidth) << std::fixed 
                     << std::setprecision(7) << pair.second.count() << '\n';
         }
+    }
+    else
+    {
+        std::cerr << "There is a missing or extra operation duration record in the BST and LinkedList times" << std::endl;
     }
 
     return 0;
