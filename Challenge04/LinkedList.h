@@ -29,6 +29,7 @@ private:
     
 
     public:
+        string name = "LinkedList";
         LinkedList(): head(nullptr), tail(nullptr) { }
         ~LinkedList();
 
