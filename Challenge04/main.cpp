@@ -15,6 +15,7 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 using std::chrono::duration_cast;
 using std::map;
+using std::cout;
 
 
 int randomNumber(int min, int max)
@@ -22,32 +23,21 @@ int randomNumber(int min, int max)
     return min + (rand() % (max - min + 1));
 }
 
-void insertRandomNumbers(BST& bst, int count, int min, int max) 
+// insert the same random numbers into both BST and LinkedList
+void insertRandomNumbers(BST& bst, LinkedList& list, int count, int min, int max) 
 {
     for (int i = 0; i < count; ++i) 
     {
         bst.insert(randomNumber(min, max));
-    }
-}
-void insertRandomNumbers(LinkedList& list, int count, int min, int max)
-{
-    for (int i = 0; i < count; ++i)
-    {
         list.append(randomNumber(min, max));
     }
 }
 
-// inserts numbers to a BST sequentially (either forwards or backwards)
-void populateSequentially(BST& bst, int start, int end, int step=1) 
+// inserts numbers to a BST & LinkedList sequentially (either forwards or backwards)
+void populateSequentially(BST& bst, LinkedList& list, int start, int end, int step=1) 
 {
     for (int i = start; ((step > 0) ? i <= end : i >= end); i += step) {
         bst.insert(i);
-    }
-}
-// appends numbers to a LinkedList sequentially (either forwards or backwards)
-void populateSequentially(LinkedList& list, int start, int end, int step=1)
-{
-    for (int i = start; ((step > 0) ? i <= end : i >= end); i += step) {
         list.append(i);
     }
 }
@@ -71,61 +61,83 @@ int main()
     /* TODO: Add search to each scenario, time that instead. Format output ig. */
 
     // 1 dozen random numbers
+    insertRandomNumbers(bst, list, 12, 1, 1000);
+    int findMe = randomNumber(1, 1000);
+
     start = high_resolution_clock::now();
-    insertRandomNumbers(bst, 12, 1, 1000);
+    cout << "BST find(" << findMe << "): " << bst.find(findMe) << "\n";
     stop = high_resolution_clock::now();
     bst_times["1 dozen random"] = duration_cast<duration<double>>(stop - start);
 
     start = high_resolution_clock::now();
-    insertRandomNumbers(list, 12, 1, 1000);
+    cout << "List find(" << findMe << "): " << list.search(findMe) << "\n";
     stop = high_resolution_clock::now();
     list_times["1 dozen random"] = duration_cast<duration<double>>(stop - start);
 
+    //clear BST and List
+    bst.~BST();
+    list.~LinkedList();
+
+    //are they cleared?
+    bst.display(cout);
+    list.display(cout);
+
 
     // 2 dozen random numbers
+    insertRandomNumbers(bst, list, 24, 1, 1000);
+    findMe = randomNumber(1, 1000);
+
     start = high_resolution_clock::now();
-    insertRandomNumbers(bst, 24, 1, 1000);
+    cout << "BST find(" << findMe << "): " << bst.find(findMe) << "\n";
     stop = high_resolution_clock::now();
     bst_times["2 dozen random"] = duration_cast<duration<double>>(stop - start);
 
     start = high_resolution_clock::now();
-    insertRandomNumbers(list, 24, 1, 1000);
+    cout << "List find(" << findMe << "): " << list.search(findMe) << "\n";
     stop = high_resolution_clock::now();
     list_times["2 dozen random"] = duration_cast<duration<double>>(stop - start);
 
 
     // 200 random numbers
+    insertRandomNumbers(bst, list, 200, 1, 1000);
+    findMe = randomNumber(1, 1000);
+
     start = high_resolution_clock::now();
-    insertRandomNumbers(bst, 200, 1, 1000);
+    cout << "BST find(" << findMe << "): " << bst.find(findMe) << "\n";
     stop = high_resolution_clock::now();
     bst_times["200 random"] = duration_cast<duration<double>>(stop - start);
 
     start = high_resolution_clock::now();
-    insertRandomNumbers(list, 200, 1, 1000);
+    cout << "List find(" << findMe << "): " << list.search(findMe) << "\n";
     stop = high_resolution_clock::now();
     list_times["200 random"] = duration_cast<duration<double>>(stop - start);
 
 
     // 1 through 1k backwards
+    populateSequentially(bst, list, 1000, 1, -1);
+    findMe = randomNumber(1, 1000);
+
     start = high_resolution_clock::now();
-    populateSequentially(bst, 1000, 1, -1);
+    cout << "BST find(" << findMe << "): " << bst.find(findMe) << "\n";
     stop = high_resolution_clock::now();
     bst_times["1 through 1k backwards"] = duration_cast<duration<double>>(stop - start);
 
     start = high_resolution_clock::now();
-    populateSequentially(list, 1000, 1, -1);    
+    cout << "List find(" << findMe << "): " << list.search(findMe) << "\n";  
     stop = high_resolution_clock::now();
     list_times["1 through 1k backwards"] = duration_cast<duration<double>>(stop - start);
 
 
     // 1 through 1k forwards
+    populateSequentially(bst, list, 1, 1000, 1);
+
     start = high_resolution_clock::now();
-    populateSequentially(bst, 1, 1000, 1);
+    cout << "BST find(" << findMe << "): " << bst.find(findMe) << "\n";
     stop = high_resolution_clock::now();
     bst_times["1 through 1k forwards"] = duration_cast<duration<double>>(stop - start);
 
     start = high_resolution_clock::now();
-    populateSequentially(list, 1, 1000, 1);
+    cout << "List find(" << findMe << "): " << list.search(findMe) << "\n";
     stop = high_resolution_clock::now();
     list_times["1 through 1k forwards"] = duration_cast<duration<double>>(stop - start);
 
@@ -136,7 +148,7 @@ int main()
     }
 
     for (const auto& pair : list_times) {
-        std::cout << "LinkedList - " << pair.first << ": " << pair.second.count() << " seconds\n";
+        std::cout << "LL - " << pair.first << ": " << pair.second.count() << " seconds\n";
     }
 
     return 0;

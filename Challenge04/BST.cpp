@@ -193,7 +193,7 @@ void BST::balance(Node * &node)
 
 // Left-Node-Right (L-N-R)
 void BST::inOrder(ostream &os) {
-    os << "In-Order: ";
+    // os << "In-Order: ";
     inOrder(root, os);  // Start the traversal from the root
     os << "\n";
 }
@@ -212,7 +212,7 @@ void BST::inOrder(Node *node, ostream &os)
 
 // Node-Left-Right (N-L-R)
 void BST::preOrder(ostream &os) {
-    os << "Pre-Order: ";
+    // os << "Pre-Order: ";
     preOrder(root, os);     // Start the traversal from the root
     os << "\n";
 }
@@ -228,7 +228,7 @@ void BST::preOrder(Node *node, ostream &os) {
 
 // Left-Right-Node (L-R-N)
 void BST::postOrder(ostream &os) {
-    os << "Post-Order: ";
+    // os << "Post-Order: ";
     postOrder(root, os);
     os << "\n";
 }
@@ -242,6 +242,11 @@ void BST::postOrder(Node *node, ostream &os)
     postOrder(node->left, os);
     postOrder(node->right, os);
     os << node->data << " ";
+}
+
+// displays by just calling inOrder
+void BST::display(ostream &os=std::cout) {
+    inOrder(os);
 }
 
 
