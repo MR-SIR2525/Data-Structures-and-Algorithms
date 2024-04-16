@@ -1,8 +1,10 @@
 #pragma once
 #include <iostream>
+#include <string>
 // #include "Node.h"
 
 using std::ostream;
+using std::string;
 
 class BST {
 private:
@@ -48,6 +50,7 @@ public:
     
     bool insert(int data);
     bool remove(int data);
+    bool clear();
     bool find(int data);
     void inOrder(ostream &os);
     void preOrder(ostream &os);

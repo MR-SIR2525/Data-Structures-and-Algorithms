@@ -250,11 +250,19 @@ void BST::display(ostream &os=std::cout) {
 }
 
 
-/******************** Destructor ********************/
+/******************** Destructor and Deletions ********************/
 BST::~BST() {
     destroy(root);
 }
 
+//clear the whole tree
+bool BST::clear()
+{
+    destroy(root);
+    return true;
+}
+
+// recursively destroy the tree starting at node
 void BST::destroy(Node*& node) {
     if (node != nullptr) {
         destroy(node->left);    // Recursively destroy the left subtree
