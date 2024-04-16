@@ -19,6 +19,11 @@ void LinkedList::append(int data)
     }
     tail = current;     // regardless, new tail = current.
 }
+// Calls append. Basically an alias.
+void LinkedList::insert(int data)
+{
+    append(data);
+}
 
 void LinkedList::prepend(int data)
 {
@@ -48,6 +53,10 @@ bool LinkedList::search(int data)
         current = current->next; //current now points to whatever's next from current
     }
     return false;   // escaped the loop without success
+}
+// Alias for `search()`, returns `true` if found or `false` if not.
+bool LinkedList::find(int data) {
+    return search(data);
 }
 
 bool LinkedList::remove(int data)
