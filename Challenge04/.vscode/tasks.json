@@ -16,7 +16,7 @@
                 "-Wextra",
                 "${fileDirname}/*.cpp",     //currently-open file's directory
                 // consider using powershell in the future
-                
+
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

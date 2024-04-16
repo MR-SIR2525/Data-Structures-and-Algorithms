@@ -1,0 +1,74 @@
+#include <iostream>
+#include "BST.h"
+#include "LinkedList.h"
+
+using std::cout;
+
+int main() 
+{
+    try
+    {    
+        BST b;
+
+        b.insert(56);
+        b.insert(34);
+        b.insert(70);
+        b.insert(5);
+        b.insert(1);
+        b.insert(42);
+        b.insert(40);
+        b.insert(52);
+        b.insert(62);
+        b.insert(57);
+        b.insert(89);
+        b.insert(90);
+        cout << b.find(44) << "\n";
+        cout << b.find(62) << "\n";
+
+        b.remove(62);
+        cout << b.find(62) << "\n";
+
+        b.insert(44);
+        cout << b.find(44) << "\n";
+
+        b.postOrder(cout);
+        b.preOrder(cout);
+        b.inOrder(cout);
+
+        std::cout << "Success BST\n";
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+
+    try
+    {
+        LinkedList list;
+
+        list.append(5);
+        list.append(33);
+        list.append(1);
+        list.append(7);
+        list.append(33);
+        list.append(12);
+        list.display( cout );
+        list.remove(33);
+        list.display( cout );
+        list.prepend(12);
+        list.display( cout );
+        list.remove(13);
+        list.display( cout );
+        list.tailDisplay( cout );  // for doubly linked list
+        list.tailRemove( 12 );     // for doubly linked list
+        list.display( cout );
+
+        std::cout << "Success LinkedList\n";
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
+}

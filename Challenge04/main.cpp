@@ -8,8 +8,8 @@
 #include <ctime>
 #include <chrono>
 #include <map>
-#include "BST/BST.h"
-#include "LinkedList/LinkedList.h"
+#include "BST.h"
+#include "LinkedList.h"
 
 using std::chrono::high_resolution_clock;
 using std::chrono::duration;
@@ -67,6 +67,8 @@ int main()
     auto start = high_resolution_clock::now();  
     auto stop = start;  
 
+
+    /* TODO: Add search to each scenario, time that instead. Format output ig. */
 
     // 1 dozen random numbers
     start = high_resolution_clock::now();
