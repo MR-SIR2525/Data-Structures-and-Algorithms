@@ -24,11 +24,14 @@ void LinkedList::prepend(int data)
 {
     Node *current = new Node(data);     // create new node with the `data`
     
-    if (head == nullptr)        //if list empty
+    if (head == nullptr) {        //if list empty
         tail = current;
+    } 
     else
+    {
         current->next = head;   // prep forward link
         head->prev = current;   // prep backward link
+    }
 
     head = current;             // regardless, new head = current.
 }
