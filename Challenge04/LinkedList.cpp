@@ -159,6 +159,13 @@ ostream &operator<<(ostream &os, LinkedList &right)
     return os;
 }
 
+// Clears the whole list
+bool LinkedList::clear()
+{
+    this->~LinkedList();
+    return true;
+}
+
 //Destructor
 LinkedList::~LinkedList()
 {

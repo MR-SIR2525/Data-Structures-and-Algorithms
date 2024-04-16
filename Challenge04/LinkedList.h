@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream> //for ostream
+#include <string>
 // #include "Node.h"
+
+using std::string;
 
 class LinkedList 
 {
@@ -40,6 +43,7 @@ private:
         bool find(int data);    //alias for search()
         bool remove(int data);
         bool tailRemove(int data);
+        bool clear();
 
         void display(std::ostream &os);
         void tailDisplay(std::ostream &os);
