@@ -42,6 +42,18 @@ struct Timings {        //{double `timeToInsert`, double `timeToFind`}
     double timeToFind;
 };
 
+// Helper function to format floating point numbers to string with fixed precision
+string formatNumber(double value, int n=7) {
+    std::ostringstream out;
+    out << std::fixed << setprecision(n) << value;
+    return out.str();
+}
+
+// Prepends "w" if condition is true, otherwise returns an empty space for alignment
+string prependWinner(bool condition, const string& text) {
+    return (condition ? "w " : "  ") + text;
+}
+
 /* Inserts numbers to a data structure, searches for 'findMe', and appends the 
 *  duration to 'list_of_times'. *Requires data_structure.insert() and data_structure.find() 
 *  to exist. 
@@ -62,7 +74,7 @@ Timings insert_search_time(T &dataStructure, int* arr, int count, int findMe)
 
     // Find the value, prints 0 for failure and 1 for success
     startTime = high_resolution_clock::now();
-    std::cout << setw(11) << right << dataStructure.name 
+    cout << setw(11) << right << dataStructure.name 
          << " find(" << setw(3) << right << findMe << "): " 
          << setw(1) << left << dataStructure.find(findMe) << "\n";
     stopTime = high_resolution_clock::now();
@@ -88,7 +100,7 @@ Timings populateSequentially(T &dataStructure, int start, int end, int step, int
 
     // Find the value, prints 0 for failure and 1 for success
     startTime = high_resolution_clock::now();
-    std::cout << setw(11) << right << dataStructure.name 
+    cout << setw(11) << right << dataStructure.name 
          << " find(" << setw(3) << right << findMe << "): " 
          << setw(1) << left << dataStructure.find(findMe) << "\n";
     stopTime = high_resolution_clock::now();                   // Record stop time
@@ -179,47 +191,46 @@ int main()
 
     bst.clear();
     list.clear();
+    cout << "\n";
 
 
+    // Print out the results
     if (bst_times.size() == list_times.size()) //verify we didn't have a slipup
     {
         int nameWidth = 25;
         int typeWidth = 12;
-        int numWidth = 12;
+        int numWidth = 12;  // Adjusted for space for "w"
 
-        std::cout << std::left << std::setw(nameWidth) << "Description"
-                << std::right << std::setw(typeWidth + 2) << "Type"
-                << std::right << std::setw(numWidth + 2) << "Insert Time"
-                << std::right << std::setw(numWidth + 2) << "Find Time"
-                << std::right << std::setw(numWidth + 2) << "Total Time"
-                << std::right << std::setw(numWidth) << "Winner" << '\n';
+        cout << left << setw(nameWidth) << "Description"
+            << right << setw(typeWidth) << "Type"
+            << right << setw(numWidth + 2) << "Insert Time"
+            << right << setw(numWidth + 1) << "Find Time"
+            << right << setw(numWidth + 2) << "Total Time" << "\n";
 
-        std::cout << std::setfill('-') << std::setw(nameWidth + 4 * numWidth + 18) << "" << std::setfill(' ') << '\n';  // Draw a line
+        cout << std::setfill('-') <<  std::setw(nameWidth + 4 * numWidth + 18) << "" << std::setfill(' ') << '\n';  // Draw a line
 
         auto bst_pair = bst_times.begin();
         auto list_pair = list_times.begin();
 
-        while (bst_pair != bst_times.end() && list_pair != list_times.end()) 
-        {
+        while (bst_pair != bst_times.end() && list_pair != list_times.end()) {
             double bstTotal = bst_pair->second.timeToInsert + bst_pair->second.timeToFind;
             double listTotal = list_pair->second.timeToInsert + list_pair->second.timeToFind;
 
             // Print BST row
-            std::cout << std::left << std::setw(nameWidth) << bst_pair->first
-                    << std::right << std::setw(typeWidth) << "BST"
-                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << bst_pair->second.timeToInsert << " s"
-                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << bst_pair->second.timeToFind << " s"
-                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << bstTotal << "s"
-                    << std::right << std::setw(numWidth) << ((bstTotal < listTotal) ? "winner" : "") << '\n';
+            cout << left << setw(nameWidth) << bst_pair->first
+                << right << setw(typeWidth) << "BST"
+                << right << setw(numWidth + 2) << prependWinner(bst_pair->second.timeToInsert < list_pair->second.timeToInsert, formatNumber(bst_pair->second.timeToInsert) + "s")
+                << right << setw(numWidth + 2) << prependWinner(bst_pair->second.timeToFind < list_pair->second.timeToFind, formatNumber(bst_pair->second.timeToFind) + "s")
+                << right << setw(numWidth + 2) << prependWinner(bstTotal < listTotal, formatNumber(bstTotal) + "s");
+            cout << "\n";
 
             // Print LinkedList row
-            std::cout << std::left << std::setw(nameWidth) << list_pair->first
-                    << std::right << std::setw(typeWidth) << "LinkedList"
-                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << list_pair->second.timeToInsert << " s"
-                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << list_pair->second.timeToFind << " s"
-                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << listTotal << "s"
-                    << std::right << std::setw(numWidth) << ((listTotal < bstTotal) ? "winner" : "") << '\n';
-            std::cout << '\n';
+            cout << left << setw(nameWidth) << list_pair->first
+                << right << setw(typeWidth) << "LinkedList"
+                << right << setw(numWidth + 2) << prependWinner(list_pair->second.timeToInsert < bst_pair->second.timeToInsert, formatNumber(list_pair->second.timeToInsert) + "s")
+                << right << setw(numWidth + 2) << prependWinner(list_pair->second.timeToFind < bst_pair->second.timeToFind, formatNumber(list_pair->second.timeToFind) + "s")
+                << right << setw(numWidth + 2) << prependWinner(listTotal < bstTotal, formatNumber(listTotal) + "s");
+            cout << "\n\n";
 
             ++bst_pair;
             ++list_pair;
