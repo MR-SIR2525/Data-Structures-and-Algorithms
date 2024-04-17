@@ -37,43 +37,64 @@ void getRandomNumbers(int* arr, int count, int min, int max)
     }
 }
 
+struct Timings {        //{double `timeToInsert`, double `timeToFind`}
+    double timeToInsert;
+    double timeToFind;
+};
+
 /* Inserts numbers to a data structure, searches for 'findMe', and appends the 
 *  duration to 'list_of_times'. *Requires data_structure.insert() and data_structure.find() 
 *  to exist. 
 *  @param dataStructure, arr, count, findMe, list_of_times 
-*  @return double `duration`    */
+*  @return Timings {timeToInsert, timeToFind}    */
 template<typename T>
-double insert_search_time(T &dataStructure, int* arr, int count, int findMe) 
+Timings insert_search_time(T &dataStructure, int* arr, int count, int findMe) 
 {
+    double timeToInsert = 0.00;
+    double timeToFind = 0.00;
+
     auto startTime = high_resolution_clock::now();
     for (int i = 0; i < count; ++i) {    // Insert array contents to data structure
         dataStructure.insert(arr[i]);
     }
+    auto stopTime = high_resolution_clock::now();
+    timeToInsert = duration_cast<duration<double>>(stopTime - startTime).count();
+
     // Find the value, prints 0 for failure and 1 for success
+    startTime = high_resolution_clock::now();
     std::cout << setw(11) << right << dataStructure.name 
          << " find(" << setw(3) << right << findMe << "): " 
          << setw(1) << left << dataStructure.find(findMe) << "\n";
-    auto stopTime = high_resolution_clock::now();                     // Record stop time
-    auto totalTime = duration_cast<duration<double>>(stopTime - startTime);
-    return totalTime.count();
+    stopTime = high_resolution_clock::now();
+    timeToFind = duration_cast<duration<double>>(stopTime - startTime).count();
+
+    return {timeToInsert, timeToFind};
 }
 
 /* @param dataStructure, start, end, step, findMe, list_of_times 
-* @return double `duration` */
+* @return Timings: {timeToInsert, timeToFind} */
 template<typename T>
-double populateSequentially(T &dataStructure, int start, int end, int step, int findMe) 
+Timings populateSequentially(T &dataStructure, int start, int end, int step, int findMe) 
 {
+    double timeToInsert = 0.00;
+    double timeToFind = 0.00;
+
     auto startTime = high_resolution_clock::now();
     for (int i = start; ((step > 0) ? i <= end : i >= end); i += step) {
         dataStructure.insert(i);
     }
+    auto stopTime = high_resolution_clock::now();
+    timeToInsert = duration_cast<duration<double>>(stopTime - startTime).count();
+
     // Find the value, prints 0 for failure and 1 for success
+    startTime = high_resolution_clock::now();
     std::cout << setw(11) << right << dataStructure.name 
          << " find(" << setw(3) << right << findMe << "): " 
          << setw(1) << left << dataStructure.find(findMe) << "\n";
-    auto stopTime = high_resolution_clock::now();                   // Record stop time
-    auto totalTime = duration_cast<duration<double>>(stopTime - startTime);
-    return totalTime.count();
+    stopTime = high_resolution_clock::now();                   // Record stop time
+    timeToFind = duration_cast<duration<double>>(stopTime - startTime).count();
+
+    return {timeToInsert, timeToFind};
 }
 
 
@@ -94,8 +115,8 @@ int main()
      *      - record stop time
      */
 
-    unordered_map<std::string, double > bst_times;   // BST times dictionary: "operation description" and "time"
-    unordered_map<std::string, double > list_times;  // LL times dictionary: "operation description" and "time"
+    unordered_map<std::string, Timings > bst_times;  //BST "operation" and {timeToInsert, timeToFind}
+    unordered_map<std::string, Timings > list_times; //LL  "operation" and {timeToInsert, timeToFind}
     int count = -1;
     int findMe = -1;
     int maxCount = 1000;
@@ -164,6 +185,7 @@ int main()
     {
         int nameWidth = 25;
         int numWidth = 10;
+        
         std::cout << std::setfill('-') << setw(nameWidth + numWidth) << "" << std::setfill(' ') << '\n';  // Draw a line
 
         auto bst_pair = bst_times.begin();
@@ -174,14 +196,14 @@ int main()
             cout << left << setw(nameWidth) << bst_pair->first;
             cout << right << setw(12) << "BST"
                 << right << setw(numWidth) << std::fixed 
-                << setprecision(7) << bst_pair->second << " s "
-                << setw(5) << ((bst_pair->second < list_pair->second) ? "winner" : "") << "\n";
+                << setprecision(7) << bst_pair->second.timeToInsert << " s "
+                << setw(5) << ((bst_pair->second.timeToInsert < list_pair->second.timeToInsert) ? "winner" : "") << "\n";
 
             cout << left << setw(nameWidth) << list_pair->first;
             cout << right << setw(12) << "LinkedList"
                 << right << setw(numWidth) << std::fixed 
                 << setprecision(7) << list_pair->second << " s  "
-                << setw(5) << ((list_pair->second < bst_pair->second) ? "winner" : "") << "\n";
+                << setw(5) << ((list_pair->second.timeToInsert < bst_pair->second.timeToInsert) ? "winner" : "") << "\n";
             cout << "\n";
 
             bst_pair++;
