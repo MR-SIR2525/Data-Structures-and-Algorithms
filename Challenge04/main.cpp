@@ -184,30 +184,45 @@ int main()
     if (bst_times.size() == list_times.size()) //verify we didn't have a slipup
     {
         int nameWidth = 25;
-        int numWidth = 10;
-        
-        std::cout << std::setfill('-') << setw(nameWidth + numWidth) << "" << std::setfill(' ') << '\n';  // Draw a line
+        int typeWidth = 12;
+        int numWidth = 12;
+
+        std::cout << std::left << std::setw(nameWidth) << "Description"
+                << std::right << std::setw(typeWidth + 2) << "Type"
+                << std::right << std::setw(numWidth + 2) << "Insert Time"
+                << std::right << std::setw(numWidth + 2) << "Find Time"
+                << std::right << std::setw(numWidth + 2) << "Total Time"
+                << std::right << std::setw(numWidth) << "Winner" << '\n';
+
+        std::cout << std::setfill('-') << std::setw(nameWidth + 4 * numWidth + 18) << "" << std::setfill(' ') << '\n';  // Draw a line
 
         auto bst_pair = bst_times.begin();
         auto list_pair = list_times.begin();
 
-        while (bst_pair != bst_times.end() && list_pair != list_times.end())
+        while (bst_pair != bst_times.end() && list_pair != list_times.end()) 
         {
-            cout << left << setw(nameWidth) << bst_pair->first;
-            cout << right << setw(12) << "BST"
-                << right << setw(numWidth) << std::fixed 
-                << setprecision(7) << bst_pair->second.timeToInsert << " s "
-                << setw(5) << ((bst_pair->second.timeToInsert < list_pair->second.timeToInsert) ? "winner" : "") << "\n";
+            double bstTotal = bst_pair->second.timeToInsert + bst_pair->second.timeToFind;
+            double listTotal = list_pair->second.timeToInsert + list_pair->second.timeToFind;
 
-            cout << left << setw(nameWidth) << list_pair->first;
-            cout << right << setw(12) << "LinkedList"
-                << right << setw(numWidth) << std::fixed 
-                << setprecision(7) << list_pair->second << " s  "
-                << setw(5) << ((list_pair->second.timeToInsert < bst_pair->second.timeToInsert) ? "winner" : "") << "\n";
-            cout << "\n";
+            // Print BST row
+            std::cout << std::left << std::setw(nameWidth) << bst_pair->first
+                    << std::right << std::setw(typeWidth) << "BST"
+                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << bst_pair->second.timeToInsert << " s"
+                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << bst_pair->second.timeToFind << " s"
+                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << bstTotal << "s"
+                    << std::right << std::setw(numWidth) << ((bstTotal < listTotal) ? "winner" : "") << '\n';
 
-            bst_pair++;
-            list_pair++;
+            // Print LinkedList row
+            std::cout << std::left << std::setw(nameWidth) << list_pair->first
+                    << std::right << std::setw(typeWidth) << "LinkedList"
+                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << list_pair->second.timeToInsert << " s"
+                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << list_pair->second.timeToFind << " s"
+                    << std::right << std::setw(numWidth + 2) << std::fixed << std::setprecision(7) << listTotal << "s"
+                    << std::right << std::setw(numWidth) << ((listTotal < bstTotal) ? "winner" : "") << '\n';
+            std::cout << '\n';
+
+            ++bst_pair;
+            ++list_pair;
         }
     }
     else
