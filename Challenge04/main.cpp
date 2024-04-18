@@ -5,8 +5,6 @@
 */
 #include <iostream>
 #include <iomanip>
-#include <cstdlib>
-#include <ctime>
 #include <chrono>
 #include <string>
 #include <unordered_map>
@@ -72,11 +70,11 @@ Timings insert_search_time(T &dataStructure, int* arr, int count, int findMe)
     auto stopTime = high_resolution_clock::now();
     timeToInsert = duration_cast<duration<double>>(stopTime - startTime).count();
 
-    // Find the value, prints 0 for failure and 1 for success
+    // Find the value, prints failure or success
     startTime = high_resolution_clock::now();
     cout << setw(11) << right << dataStructure.name 
          << " find(" << setw(3) << right << findMe << "): " 
-         << setw(1) << left << dataStructure.find(findMe) << "\n";
+         << setw(1) << left << (dataStructure.find(findMe) ? "success" : "failure") << "\n";
     stopTime = high_resolution_clock::now();
     timeToFind = duration_cast<duration<double>>(stopTime - startTime).count();
 
@@ -98,11 +96,11 @@ Timings populateSequentially(T &dataStructure, int start, int end, int step, int
     auto stopTime = high_resolution_clock::now();
     timeToInsert = duration_cast<duration<double>>(stopTime - startTime).count();
 
-    // Find the value, prints 0 for failure and 1 for success
+    // Find the value, print failure or success
     startTime = high_resolution_clock::now();
     cout << setw(11) << right << dataStructure.name 
          << " find(" << setw(3) << right << findMe << "): " 
-         << setw(1) << left << dataStructure.find(findMe) << "\n";
+         << setw(1) << left << (dataStructure.find(findMe) ? "success" : "failure") << "\n";
     stopTime = high_resolution_clock::now();                   // Record stop time
     timeToFind = duration_cast<duration<double>>(stopTime - startTime).count();
 
